@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/iot_fresh_transport?useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 6666667MySQL
+
+server:
+  port: 7777
+
+debug: false
+mybatis-plus:
+  configuration:
+    # ??
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: false # ???????????????
+  global-config:
+    db-config:
+      logic-delete-field: delFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      id-type: auto
+  mapper-locations: mapper/*.xml
+
+mqtt:
+  broker: ws://emqx@127.0.0.1:1883/mqtt
+  username: emqx
+  password: public
+  clientId: receiver
