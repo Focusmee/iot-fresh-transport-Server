@@ -1,7 +1,8 @@
 package com.example.iotfreshtransportserver.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.iotfreshtransportserver.domain.command.ControlParameters;
+
+import com.example.iotfreshtransportserver.domain.command.ControlParameter;
 import org.apache.ibatis.annotations.Mapper;
 
 
@@ -12,7 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2023-07-24 19:39:17
  */
 @Mapper
-public interface ControlParametersMapper extends BaseMapper<ControlParameters> {
+public interface ControlParametersMapper extends BaseMapper<ControlParameter> {
 
 }
     

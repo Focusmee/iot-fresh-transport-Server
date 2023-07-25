@@ -1,7 +1,8 @@
 package com.example.iotfreshtransportserver.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.iotfreshtransportserver.domain.command.ControlParameters;
+import com.example.iotfreshtransportserver.domain.command.ControlParameter;
+
 import com.example.iotfreshtransportserver.mapper.ControlParametersMapper;
 import com.example.iotfreshtransportserver.service.ControlParametersService;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @since 2023-07-24 19:39:17
  */
 @Service("controlParametersService")
-public class ControlParametersServiceImpl extends ServiceImpl<ControlParametersMapper, ControlParameters> implements ControlParametersService {
+public class ControlParametersServiceImpl extends ServiceImpl<ControlParametersMapper, ControlParameter> implements ControlParametersService {
 
 }
 

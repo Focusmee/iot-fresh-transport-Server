@@ -1,4 +1,4 @@
-package com.example.iotfreshtransportserver.handle.mqtt;
+package com.example.iotfreshtransportserver.mqtt;
 
 import com.alibaba.fastjson.JSON;
 import com.example.iotfreshtransportserver.domain.entity.*;
@@ -9,6 +9,8 @@ import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 @Slf4j
 @Component
@@ -44,10 +46,12 @@ public class InitCallback implements MqttCallback {
         switch (topic){
             case "mqtt/TemperatureInfo":
                 TemperatureInfo temperatureInfo = JSON.parseObject(messageContent, TemperatureInfo.class);
+                temperatureInfo.setTime(new Date(System.currentTimeMillis()));
                 temperatureInfoService.save(temperatureInfo);
                 break;
             case "mqtt/LightInfo":
                 LightInfo lightInfo = JSON.parseObject(messageContent, LightInfo.class);
+                lightInfo.setTime(new Date(System.currentTimeMillis()));
                 lightInfoService.save(lightInfo);
                 break;
             case "mqtt/DeviceControl":
@@ -67,8 +71,16 @@ public class InitCallback implements MqttCallback {
                 System.out.println("unknown topic");
                 break;
         }
-
-
+//        try {
+//            JSONObject jsonObject = JSON.parseObject(msg);
+//            String clientId = String.valueOf(jsonObject.get("clientid"));
+//            if (topic.endsWith("/disconnected")) {
+//                log.info("客户端已掉线：{}", clientId);
+//            } else {
+//                log.info("客户端已上线：{}", clientId);
+//            }
+//        } catch (JSONException e) {
+//        log.error("JSON Format Parsing Exception : {}", msg);
     }
 
     @Override

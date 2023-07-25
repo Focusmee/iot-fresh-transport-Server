@@ -1,7 +1,7 @@
 package com.example.iotfreshtransportserver.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.iotfreshtransportserver.domain.command.ControlParameters;
+import com.example.iotfreshtransportserver.domain.command.ControlParameter;
 
 
 /**
@@ -10,7 +10,7 @@ import com.example.iotfreshtransportserver.domain.command.ControlParameters;
  * @author makejava
  * @since 2023-07-24 19:39:17
  */
-public interface ControlParametersService extends IService<ControlParameters> {
+public interface ControlParametersService extends IService<ControlParameter> {
 
 }
 

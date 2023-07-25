@@ -6,6 +6,8 @@ import com.example.iotfreshtransportserver.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/transport")
@@ -25,6 +27,17 @@ public class TransportController {
 
     @Autowired
     private DeviceStatusService deviceStatusService;
+
+    /**
+     * 获得运输舱列表
+     *
+     * @return {@link ResponseResult} 所有储运厢信息
+     */
+    @GetMapping("/list")
+    public ResponseResult getTransportCabinList() {
+        List<TransportCabin> transportCabinList = transportCabinService.list();
+        return ResponseResult.okResult(transportCabinList);
+    }
 
     // 在此处添加各种请求处理方法
     /**

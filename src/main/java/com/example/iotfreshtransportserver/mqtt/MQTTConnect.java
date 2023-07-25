@@ -154,6 +154,5 @@ public class MQTTConnect {
 //    mqttConnect.sub("com/iot/init");
 //    mqttConnect.pub("com/iot/init", msg);
 
-
   }
 }

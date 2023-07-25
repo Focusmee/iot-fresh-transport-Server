@@ -19,5 +19,6 @@ public interface TransportCabinService extends IService<TransportCabin> {
     void addTransportCabin(String vid, String pid);
 
     void deleteTransportCabinByVID(String vid);
+
 }
 

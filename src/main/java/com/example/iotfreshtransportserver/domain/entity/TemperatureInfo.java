@@ -2,6 +2,9 @@ package com.example.iotfreshtransportserver.domain.entity;
 
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,7 +39,16 @@ public class TemperatureInfo  {
     
     private Double tg;
 
+    private Date time;
 
+    public static String formatDate(Date date) {
+        // 创建一个 SimpleDateFormat 对象，指定日期时间格式
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
+        // 使用 SimpleDateFormat 格式化日期时间为字符串
+        String formattedDate = sdf.format(date);
+
+        return formattedDate;
+    }
 }
 
