@@ -1,6 +1,8 @@
-package com.example.iotfreshtransportserver.handle.mqtt;
+package com.example.iotfreshtransportserver.mqtt;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
 import com.example.iotfreshtransportserver.domain.entity.*;
 import com.example.iotfreshtransportserver.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +11,8 @@ import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 @Slf4j
 @Component
@@ -37,17 +41,33 @@ public class InitCallback implements MqttCallback {
     public void messageArrived(String topic, MqttMessage message) {
         System.out.println("topic: " + topic);
         System.out.println("Qos: " + message.getQos());
-        messageContent =  new String(message.getPayload());
+        messageContent = new String(message.getPayload());
         System.out.println("message content: " + messageContent);
+        /*
+        * 判断是上线还是掉线
+        * */
+        try {
+            JSONObject jsonObject = JSON.parseObject(messageContent);
+            String clientId = String.valueOf(jsonObject.get("clientid"));
+            if (topic.endsWith("/disconnected")) {
+                log.info("客户端已掉线：{}", clientId);
+            } else {
+                log.info("客户端已上线：{}", clientId);
+            }
+        } catch (JSONException e) {
+            log.error("JSON Format Parsing Exception : {}", messageContent);
+        }
         //在这调用Service方法
         //判断Topic进行
-        switch (topic){
+        switch (topic) {
             case "mqtt/TemperatureInfo":
                 TemperatureInfo temperatureInfo = JSON.parseObject(messageContent, TemperatureInfo.class);
+                temperatureInfo.setTime(new Date(System.currentTimeMillis()));
                 temperatureInfoService.save(temperatureInfo);
                 break;
             case "mqtt/LightInfo":
                 LightInfo lightInfo = JSON.parseObject(messageContent, LightInfo.class);
+                lightInfo.setTime(new Date(System.currentTimeMillis()));
                 lightInfoService.save(lightInfo);
                 break;
             case "mqtt/DeviceControl":
@@ -62,13 +82,11 @@ public class InitCallback implements MqttCallback {
                 TransportCabin transportCabin = JSON.parseObject(messageContent, TransportCabin.class);
                 transportCabinService.save(transportCabin);
                 break;
-            default:
-                // Handle unknown topics, or you can ignore them if not needed.
-                System.out.println("unknown topic");
-                break;
+//            default:
+//                // Handle unknown topics, or you can ignore them if not needed.
+//                System.out.println("unknown topic");
+//                break;
         }
-
-
     }
 
     @Override

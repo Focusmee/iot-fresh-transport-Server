@@ -17,8 +17,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("control_parameters")
-public class ControlParameters  {
+@TableName("control_parameter")
+public class ControlParameter  {
     @TableId
     private Integer id;
 

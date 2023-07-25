@@ -53,10 +53,6 @@ public class MQTTConnect {
   public void setMqttClient(String username, String password)
           throws MqttException {
     MqttConnectOptions options = mqttConnectOptions(username, password);
-        /*if (mqttCallback == null) {
-            mqttClient.setCallback(new Callback());
-        } else {
-        }*/
     mqttClient.connect(options);
   }
 
@@ -67,11 +63,6 @@ public class MQTTConnect {
    **/
   public void setMqttClient(MqttCallback mqttCallback)
           throws MqttException {
-
-        /*if (mqttCallback == null) {
-            mqttClient.setCallback(new Callback());
-        } else {
-        }*/
     mqttClient.setCallback(mqttCallback);
   }
 
@@ -87,8 +78,8 @@ public class MQTTConnect {
     options.setPassword(passWord.toCharArray());
     options.setConnectionTimeout(10);///默认：30
     options.setAutomaticReconnect(true);//默认：false
-    options.setCleanSession(false);//默认：true
-    //options.setKeepAliveInterval(20);//默认：60
+    options.setCleanSession(false);//默认：true MQTT协议3.1.1 使用MQTT5.0使用的是Clean Start 与 Session Expiry Interval
+    options.setKeepAliveInterval(20);//默认：60
     return options;
   }
 
@@ -147,13 +138,17 @@ public class MQTTConnect {
     mqttClient.subscribe(topic, qos);
   }
 
+  /**
+   * 例子
+   *
+   * @param args arg游戏
+   * @throws MqttException mqtt例外
+   */
   public static void main(String[] args) throws MqttException {
 //    MQTTConnect mqttConnect = new MQTTConnect();
 //    String msg = "Mr.Qu" + (int) (Math.random() * 100000000);
 //
 //    mqttConnect.sub("com/iot/init");
 //    mqttConnect.pub("com/iot/init", msg);
-
-
   }
 }
