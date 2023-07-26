@@ -9,6 +9,7 @@ import com.example.iotfreshtransportserver.mapper.LightInfoMapper;
 import com.example.iotfreshtransportserver.service.LightInfoService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -30,8 +31,8 @@ public class LightInfoServiceImpl extends ServiceImpl<LightInfoMapper, LightInfo
         LightInfo lightInfo = new LightInfo();
         lightInfo.setLxin(lxin);
         lightInfo.setLxd(lxd);
-        lightInfo.setTbegin(LocalTime.parse(tbegin));
-        lightInfo.setTend(LocalTime.parse(tend));
+        lightInfo.setTbegin(LocalDateTime.parse(tbegin));
+        lightInfo.setTend(LocalDateTime.parse(tend));
         UpdateWrapper<LightInfo> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("cabin_id", vid);
         update(lightInfo, updateWrapper);

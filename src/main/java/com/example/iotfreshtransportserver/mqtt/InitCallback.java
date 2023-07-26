@@ -43,31 +43,15 @@ public class InitCallback implements MqttCallback {
         System.out.println("Qos: " + message.getQos());
         messageContent = new String(message.getPayload());
         System.out.println("message content: " + messageContent);
-        /*
-        * 判断是上线还是掉线
-        * */
-        try {
-            JSONObject jsonObject = JSON.parseObject(messageContent);
-            String clientId = String.valueOf(jsonObject.get("clientid"));
-            if (topic.endsWith("/disconnected")) {
-                log.info("客户端已掉线：{}", clientId);
-            } else {
-                log.info("客户端已上线：{}", clientId);
-            }
-        } catch (JSONException e) {
-            log.error("JSON Format Parsing Exception : {}", messageContent);
-        }
         //在这调用Service方法
         //判断Topic进行
         switch (topic) {
             case "mqtt/TemperatureInfo":
                 TemperatureInfo temperatureInfo = JSON.parseObject(messageContent, TemperatureInfo.class);
-                temperatureInfo.setTime(new Date(System.currentTimeMillis()));
                 temperatureInfoService.save(temperatureInfo);
                 break;
             case "mqtt/LightInfo":
                 LightInfo lightInfo = JSON.parseObject(messageContent, LightInfo.class);
-                lightInfo.setTime(new Date(System.currentTimeMillis()));
                 lightInfoService.save(lightInfo);
                 break;
             case "mqtt/DeviceControl":
@@ -82,10 +66,24 @@ public class InitCallback implements MqttCallback {
                 TransportCabin transportCabin = JSON.parseObject(messageContent, TransportCabin.class);
                 transportCabinService.save(transportCabin);
                 break;
-//            default:
-//                // Handle unknown topics, or you can ignore them if not needed.
-//                System.out.println("unknown topic");
-//                break;
+            default:
+                // Handle unknown topics, or you can ignore them if not needed.
+                log.info("unknown topic:");
+                /*
+                 * 判断是上线还是掉线
+                 * */
+                try {
+                    JSONObject jsonObject = JSON.parseObject(messageContent);
+                    String clientId = String.valueOf(jsonObject.get("clientid"));
+                    if (topic.endsWith("/disconnected")) {
+                        log.info("客户端已掉线：{}", clientId);
+                    } else {
+                        log.info("客户端已上线：{}", clientId);
+                    }
+                } catch (JSONException e) {
+                    log.error("JSON Format Parsing Exception : {}", messageContent);
+                }
+                break;
         }
     }
 

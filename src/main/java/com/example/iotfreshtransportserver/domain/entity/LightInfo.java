@@ -1,9 +1,11 @@
 package com.example.iotfreshtransportserver.domain.entity;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -34,13 +36,13 @@ public class LightInfo  {
     
     private Double lxd;
     
-    private LocalTime tbegin;
+    private LocalDateTime tbegin;
     
-    private LocalTime tend;
+    private LocalDateTime tend;
 
-    private Date time;
+    private LocalDateTime time;
 
-    public static String formatDate(Date date) {
+    public static String formatDate(LocalDateTime date) {
         // 创建一个 SimpleDateFormat 对象，指定日期时间格式
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 

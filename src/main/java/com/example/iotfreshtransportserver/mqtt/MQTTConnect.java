@@ -76,10 +76,10 @@ public class MQTTConnect {
     MqttConnectOptions options = new MqttConnectOptions();
     options.setUserName(userName);
     options.setPassword(passWord.toCharArray());
-    options.setConnectionTimeout(10);///默认：30
+    options.setConnectionTimeout(30);///默认：30
     options.setAutomaticReconnect(true);//默认：false
     options.setCleanSession(false);//默认：true MQTT协议3.1.1 使用MQTT5.0使用的是Clean Start 与 Session Expiry Interval
-    options.setKeepAliveInterval(20);//默认：60
+    options.setKeepAliveInterval(60);//默认：60
     return options;
   }
 

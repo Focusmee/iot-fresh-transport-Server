@@ -40,7 +40,7 @@ public class LineController {
         // Simulate the data retrieval from your data source
         // 横坐标时间
         List<String> timeStrings = newList.stream()
-                .map(temperatureInfo -> String.valueOf(temperatureInfo.formatDate(temperatureInfo.getTime())))
+                .map(temperatureInfo -> String.valueOf(TemperatureInfo.formatDate(temperatureInfo.getTime())))
                 .collect(Collectors.toList());
 //        lineA.setCategories(Arrays.asList("2012", "2013", "2014", "2015", "2016", "2017"));
         line.setCategories(timeStrings);
