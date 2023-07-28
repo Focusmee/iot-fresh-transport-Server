@@ -3,6 +3,7 @@ package com.example.iotfreshtransportserver.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.iotfreshtransportserver.domain.entity.LightInfo;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -14,10 +15,13 @@ import java.util.List;
  */
 public interface LightInfoService extends IService<LightInfo> {
 
-    LightInfo getLightInfoByVID(String vid);
+    List<LightInfo> getLightInfoByVID(String vid);
 
     void updateLightInfo(String vid, double lxin, double lxd, String tbegin, String tend);
 
-    List<LightInfo> getNewList(Integer size);
+    List<LightInfo> getNewList(Integer vid, Integer size);
+
+    // 实现根据起始时间和终止时间找到光照信息
+    List<LightInfo> getLightInfoByTime(String vid, LocalDateTime start, LocalDateTime end);
 }
 

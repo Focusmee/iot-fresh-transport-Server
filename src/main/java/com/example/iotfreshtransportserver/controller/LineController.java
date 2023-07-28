@@ -10,6 +10,7 @@ import com.example.iotfreshtransportserver.service.TemperatureInfoService;
 import com.example.iotfreshtransportserver.service.TransportCabinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,11 +33,11 @@ public class LineController {
         this.lightInfoService = lightInfoService;
     }
 
-    @GetMapping("/temperature")
-    public String getTemperatureData() {
+    @GetMapping("/temperature/{vid}")
+    public String getTemperatureData(@PathVariable Integer vid) {
         Line line = new Line();
         // 获取最新的6条数据
-        List<TemperatureInfo> newList = temperatureInfoService.getNewList(6);
+        List<TemperatureInfo> newList = temperatureInfoService.getNewList(vid,6);
         // Simulate the data retrieval from your data source
         // 横坐标时间
         List<String> timeStrings = newList.stream()
@@ -58,11 +59,11 @@ public class LineController {
         System.out.println("LINE");
         return JSON.toJSONString(line);
     }
-    @GetMapping("/light")
-    public String getLightData() {
+    @GetMapping("/light/{vid}")
+    public String getLightData(@PathVariable Integer vid) {
         Line line = new Line();
         // 获取最新的6条数据
-        List<LightInfo> newList = lightInfoService.getNewList(6);
+        List<LightInfo> newList = lightInfoService.getNewList(vid,6);
         // Simulate the data retrieval from your data source
         // 横坐标时间
         List<String> timeStrings = newList.stream()
@@ -73,8 +74,11 @@ public class LineController {
         List<Double> lxins = newList.stream()
                 .map(LightInfo::getLxin)
                 .collect(Collectors.toList());
+        List<Double> louts = newList.stream()
+                .map(LightInfo::getLxd)
+                .collect(Collectors.toList());
         seriesList.add(new LineSeries("厢内光照",lxins));
-
+        seriesList.add(new LineSeries("厢外光照",louts));
         line.setSeries(seriesList);
         System.out.println("LINE");
         return JSON.toJSONString(line);

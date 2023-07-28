@@ -1,6 +1,10 @@
 package com.example.iotfreshtransportserver.utils;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -129,5 +133,11 @@ public class DateUtils {
 		}
 
 		return dates;
+	}
+
+	public static LocalDateTime longToLocalDateTime(long time) {
+		Instant instant = Instant.ofEpochMilli(time);
+		LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+		return localDateTime;
 	}
 }

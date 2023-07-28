@@ -30,6 +30,7 @@ public class MqttMessageServiceImpl implements MqttMessageService {
             mqttConnect.pub(topic, message);
         } catch (MqttException e) {
             System.out.println("发送失败");
+            //失败缓存
             throw new RuntimeException(e);
         }
     }
@@ -46,6 +47,7 @@ public class MqttMessageServiceImpl implements MqttMessageService {
             mqttConnect.pub(topic, message,1);
         } catch (MqttException e) {
             System.out.println("发送失败");
+            //失败缓存
             throw new RuntimeException(e);
         }
     }

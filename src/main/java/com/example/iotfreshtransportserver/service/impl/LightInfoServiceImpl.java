@@ -4,13 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.iotfreshtransportserver.domain.entity.LightInfo;
-import com.example.iotfreshtransportserver.domain.entity.TemperatureInfo;
 import com.example.iotfreshtransportserver.mapper.LightInfoMapper;
 import com.example.iotfreshtransportserver.service.LightInfoService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -21,10 +19,10 @@ import java.util.List;
  */
 @Service("lightInfoService")
 public class LightInfoServiceImpl extends ServiceImpl<LightInfoMapper, LightInfo> implements LightInfoService {
-    public LightInfo getLightInfoByVID(String vid) {
+    public List<LightInfo> getLightInfoByVID(String vid) {
         QueryWrapper<LightInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("cabin_id", vid);
-        return getOne(queryWrapper);
+        queryWrapper.eq("cabinId", vid);
+        return list(queryWrapper);
     }
 
     public void updateLightInfo(String vid, double lxin, double lxd, String tbegin, String tend) {
@@ -39,12 +37,15 @@ public class LightInfoServiceImpl extends ServiceImpl<LightInfoMapper, LightInfo
     }
 
     @Override
-    public List<LightInfo> getNewList(Integer size) {
+    public List<LightInfo> getNewList(Integer cabinId,Integer size) {
         // Create a QueryWrapper to build the query condition
         QueryWrapper<LightInfo> queryWrapper = new QueryWrapper<>();
 
         // Set the ordering to descending based on the time column (assuming the column name is "time")
         queryWrapper.orderByDesc("time");
+
+        // Add the cabinId to the query condition
+        queryWrapper.eq("cabinId", cabinId);
 
         // Set the limit on the number of records to be retrieved (in this case, 6)
         queryWrapper.last("LIMIT " + size);
@@ -53,6 +54,15 @@ public class LightInfoServiceImpl extends ServiceImpl<LightInfoMapper, LightInfo
         List<LightInfo> resultList = baseMapper.selectList(queryWrapper);
 
         return resultList;
+    }
+    // 实现根据起始时间和终止时间找到光照信息
+    @Override
+    public List<LightInfo> getLightInfoByTime(String vid, LocalDateTime start, LocalDateTime end) {
+        QueryWrapper<LightInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("cabinId", vid);
+        queryWrapper.between("time", start, end);
+        return list(queryWrapper);
+        //return baseMapper.getLightInfoByTime(vid, start, end);
     }
 }
 

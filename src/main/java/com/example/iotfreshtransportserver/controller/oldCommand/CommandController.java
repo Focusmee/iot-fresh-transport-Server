@@ -1,4 +1,4 @@
-package com.example.iotfreshtransportserver.controller;
+package com.example.iotfreshtransportserver.controller.oldCommand;
 
 import com.example.iotfreshtransportserver.domain.ResponseResult;
 import com.example.iotfreshtransportserver.domain.command.RemoteControlCommand;

@@ -35,6 +35,5 @@ public class RemoteControlCommand  {
     private Date commandTime;
 
 
-
 }
 

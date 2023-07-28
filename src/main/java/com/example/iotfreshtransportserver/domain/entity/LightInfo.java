@@ -6,8 +6,10 @@ import java.time.LocalTime;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +31,7 @@ public class LightInfo  {
     @TableId
     private Integer id;
 
-    
+    @TableField("cabinId")
     private Integer cabinId;
     
     private Double lxin;
@@ -44,10 +46,10 @@ public class LightInfo  {
 
     public static String formatDate(LocalDateTime date) {
         // 创建一个 SimpleDateFormat 对象，指定日期时间格式
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm:ss");
 
         // 使用 SimpleDateFormat 格式化日期时间为字符串
-        String formattedDate = sdf.format(date);
+        String formattedDate = df.format(date);
 
         return formattedDate;
     }

@@ -3,9 +3,15 @@ package com.example.iotfreshtransportserver.controller;
 import com.example.iotfreshtransportserver.domain.ResponseResult;
 import com.example.iotfreshtransportserver.domain.entity.*;
 import com.example.iotfreshtransportserver.service.*;
+import javafx.util.Pair;
+import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 
@@ -90,8 +96,25 @@ public class TransportController {
      */
     @GetMapping("/{vid}/temperature")
     public ResponseResult<TemperatureInfo> getTemperatureInfo(@PathVariable("vid") String vid) {
-        TemperatureInfo temperatureInfo = temperatureInfoService.getTemperatureInfoByVID(vid);
-        return ResponseResult.okResult(temperatureInfo);
+        List<TemperatureInfo> temperatureInfoByVID = temperatureInfoService.getTemperatureInfoByVID(vid);
+        return ResponseResult.okResult(temperatureInfoByVID);
+    }
+
+    @GetMapping("/{vid}/temperature/{start}/{end}")
+    public ResponseResult<TemperatureInfo> getTemperatureInfoByTime(@PathVariable("vid") String vid,
+                                                                    @PathVariable("start") Long start,
+                                                                    @PathVariable("end") Long end) {
+        Instant instant1 = Instant.ofEpochMilli(start);
+        Instant instant2 = Instant.ofEpochMilli(end);
+        LocalDateTime startTime =  LocalDateTime.ofInstant(instant1, ZoneId.systemDefault());
+        LocalDateTime endTime =  LocalDateTime.ofInstant(instant2, ZoneId.systemDefault());
+        if (startTime.isAfter(endTime)) {
+            LocalDateTime temp = startTime;
+            startTime = endTime;
+            endTime = temp;
+        }
+        List<TemperatureInfo> temperatureInfoByVID = temperatureInfoService.getTemperatureInfoByTime(vid, startTime, endTime);
+        return ResponseResult.okResult(temperatureInfoByVID);
     }
 
     /**
@@ -120,9 +143,26 @@ public class TransportController {
      * @return 储运厢光照信息
      */
     @GetMapping("/{vid}/light")
-    public ResponseResult<LightInfo> getLightInfo(@PathVariable("vid") String vid) {
-        LightInfo lightInfo = lightInfoService.getLightInfoByVID(vid);
-        return ResponseResult.okResult(lightInfo);
+    public ResponseResult getLightInfo(@PathVariable("vid") String vid) {
+        List<LightInfo> lightInfoByVID = lightInfoService.getLightInfoByVID(vid);
+        return ResponseResult.okResult(lightInfoByVID);
+    }
+
+    /**
+     * 获得光信息
+     *
+     * @param vid   从视频
+     * @param start 开始
+     * @param end   结束
+     * @return {@link ResponseResult}
+     */
+    @GetMapping("/{vid}/light/{start}/{end}")
+    public ResponseResult getLightInfo(@PathVariable("vid") String vid, @PathVariable("start") Long start, @PathVariable("end") Long end) {
+        Pair<LocalDateTime, LocalDateTime> localDateTimeLocalDateTimePair = startAndEnd(start, end);
+        LocalDateTime startTime = localDateTimeLocalDateTimePair.getKey();
+        LocalDateTime endTime = localDateTimeLocalDateTimePair.getValue();
+        List<LightInfo> lightInfoByVID = lightInfoService.getLightInfoByTime(vid, startTime, endTime);
+        return ResponseResult.okResult(lightInfoByVID);
     }
 
     /**
@@ -182,4 +222,16 @@ public class TransportController {
         return ResponseResult.okResult(deviceStatus);
     }
 
+    private Pair<LocalDateTime,LocalDateTime> startAndEnd(Long start, Long end) {
+        Instant instant1 = Instant.ofEpochMilli(start);
+        Instant instant2 = Instant.ofEpochMilli(end);
+        LocalDateTime startTime =  LocalDateTime.ofInstant(instant1, ZoneId.systemDefault());
+        LocalDateTime endTime =  LocalDateTime.ofInstant(instant2, ZoneId.systemDefault());
+        if (startTime.isAfter(endTime)) {
+            LocalDateTime temp = startTime;
+            startTime = endTime;
+            endTime = temp;
+        }
+        return new Pair<>(startTime,endTime);
+    }
 }

@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.iotfreshtransportserver.domain.entity.TemperatureInfo;
 import com.example.iotfreshtransportserver.mapper.TemperatureInfoMapper;
 import com.example.iotfreshtransportserver.service.TemperatureInfoService;
+import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -18,10 +20,10 @@ import java.util.List;
  */
 @Service("temperatureInfoService")
 public class TemperatureInfoServiceImpl extends ServiceImpl<TemperatureInfoMapper, TemperatureInfo> implements TemperatureInfoService {
-    public TemperatureInfo getTemperatureInfoByVID(String vid) {
+    public List<TemperatureInfo> getTemperatureInfoByVID(String vid) {
         QueryWrapper<TemperatureInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("cabin_id", vid);
-        return getOne(queryWrapper);
+        queryWrapper.eq("cabinId", vid);
+        return list(queryWrapper);
     }
 
     /**
@@ -31,12 +33,15 @@ public class TemperatureInfoServiceImpl extends ServiceImpl<TemperatureInfoMappe
      * @return {@link List}<{@link TemperatureInfo}>
      */
     @Override
-    public List<TemperatureInfo> getNewList(Integer size) {
+    public List<TemperatureInfo> getNewList(Integer vid,Integer size) {
         // Create a QueryWrapper to build the query condition
         QueryWrapper<TemperatureInfo> queryWrapper = new QueryWrapper<>();
 
         // Set the ordering to descending based on the time column (assuming the column name is "time")
         queryWrapper.orderByDesc("time");
+
+        // Set the cabin ID to be the same as the vid
+        queryWrapper.eq("cabinId", vid);
 
         // Set the limit on the number of records to be retrieved (in this case, 6)
         queryWrapper.last("LIMIT " + size);
@@ -45,6 +50,14 @@ public class TemperatureInfoServiceImpl extends ServiceImpl<TemperatureInfoMappe
         List<TemperatureInfo> resultList = baseMapper.selectList(queryWrapper);
 
         return resultList;
+    }
+
+    @Override
+    public List<TemperatureInfo> getTemperatureInfoByTime(String vid, LocalDateTime start, LocalDateTime end) {
+        QueryWrapper <TemperatureInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.between("time", start, end);
+        queryWrapper.eq("cabinId", vid);
+        return list(queryWrapper);
     }
 
     public void updateTemperatureInfo(String vid, double tin, double tout, double tinDH, double tinDL, double tg) {

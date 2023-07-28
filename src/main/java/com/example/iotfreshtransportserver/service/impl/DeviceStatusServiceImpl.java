@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class DeviceStatusServiceImpl extends ServiceImpl<DeviceStatusMapper, DeviceStatus> implements DeviceStatusService {
     public DeviceStatus getDeviceStatusByVID(String vid) {
         QueryWrapper<DeviceStatus> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("cabin_id", vid);
+        queryWrapper.eq("cabinId", vid);
         return getOne(queryWrapper);
     }
 }
