@@ -52,9 +52,9 @@ public class TransportController {
      * @return 储运厢信息
      */
     @GetMapping("/{vid}")
-    public ResponseResult<TransportCabin> getTransportCabin(@PathVariable("vid") String vid) {
-        TransportCabin transportCabin = transportCabinService.getTransportCabinByVID(vid);
-        return ResponseResult.okResult(transportCabin);
+    public ResponseResult<TransportCabin> getTransportCabin(@PathVariable("vid") Integer vid) {
+        List<TransportCabin> transportCabins = transportCabinService.getTransportCabinByVID(vid);
+        return ResponseResult.okResult(transportCabins);
     }
 
     /**
@@ -63,7 +63,7 @@ public class TransportController {
      * @param pid 物品识别号
      */
     @PostMapping("/{vid}")
-    public ResponseResult<Void> addTransportCabin(@PathVariable("vid") String vid, @RequestParam("pid") String pid) {
+    public ResponseResult<Void> addTransportCabin(@PathVariable("vid") Integer vid, @RequestParam("pid") Integer pid) {
         transportCabinService.addTransportCabin(vid, pid);
         return ResponseResult.okResult();
     }
@@ -74,7 +74,7 @@ public class TransportController {
      * @param pid 物品识别号
      */
     @PutMapping("/{vid}")
-    public ResponseResult<Void> updateTransportCabin(@PathVariable("vid") String vid, @RequestParam("pid") String pid) {
+    public ResponseResult<Void> updateTransportCabin(@PathVariable("vid") Integer vid, @RequestParam("pid") Integer pid) {
         transportCabinService.updateTransportCabin(vid, pid);
         return ResponseResult.okResult();
     }
@@ -84,7 +84,7 @@ public class TransportController {
      * @param vid 储运厢编号
      */
     @DeleteMapping("/{vid}")
-    public ResponseResult<Void> deleteTransportCabin(@PathVariable("vid") String vid) {
+    public ResponseResult<Void> deleteTransportCabin(@PathVariable("vid") Integer vid) {
         transportCabinService.deleteTransportCabinByVID(vid);
         return ResponseResult.okResult();
     }

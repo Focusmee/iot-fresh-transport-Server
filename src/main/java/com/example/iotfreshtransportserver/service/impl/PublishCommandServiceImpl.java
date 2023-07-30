@@ -22,7 +22,7 @@ public class PublishCommandServiceImpl extends ServiceImpl<PublishCommandMapper,
         //根据时间排序找到最新的一条数据
         queryWrapper.orderByDesc("time");
         queryWrapper.eq("cabinId", vid);
-        return getOne(queryWrapper);
+        return (PublishCommand) list(queryWrapper).get(0);
     }
 }
 

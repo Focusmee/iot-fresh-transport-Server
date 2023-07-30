@@ -24,9 +24,9 @@ public class TransportCabin  {
     private Integer id;
 
     
-    private String vid;
+    private Integer vid;
     
-    private String pid;
+    private Integer pid;
 
 
 

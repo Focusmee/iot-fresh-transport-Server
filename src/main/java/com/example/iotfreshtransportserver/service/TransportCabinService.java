@@ -3,6 +3,8 @@ package com.example.iotfreshtransportserver.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.iotfreshtransportserver.domain.entity.TransportCabin;
 
+import java.util.List;
+
 
 /**
  * (TransportCabin)表服务接口
@@ -12,13 +14,13 @@ import com.example.iotfreshtransportserver.domain.entity.TransportCabin;
  */
 public interface TransportCabinService extends IService<TransportCabin> {
 
-    TransportCabin getTransportCabinByVID(String vid);
+    List<TransportCabin> getTransportCabinByVID(Integer vid);
 
-    void updateTransportCabin(String vid, String pid);
+    void updateTransportCabin(Integer vid, Integer pid);
 
-    void addTransportCabin(String vid, String pid);
+    void addTransportCabin(Integer vid, Integer pid);
 
-    void deleteTransportCabinByVID(String vid);
+    void deleteTransportCabinByVID(Integer vid);
 
 }
 

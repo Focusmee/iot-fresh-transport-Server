@@ -1,0 +1,29 @@
+package com.example.iotfreshtransportserver.domain.dto;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.apache.tomcat.jni.Local;
+import org.springframework.core.annotation.AliasFor;
+
+import java.time.LocalDateTime;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ReceivedDataDto {
+    Integer vid;
+    Integer cabinId;
+    Integer pid;
+    @JsonProperty("Tin")
+    Double tin;
+    @JsonProperty("Tout")
+    Double tout;
+    @JsonProperty("Lxin")
+    Double lxin;
+    @JsonProperty("VStatus")
+    Integer vstatus;
+    @JsonProperty("Time")
+    LocalDateTime time;
+}

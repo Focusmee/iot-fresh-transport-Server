@@ -26,7 +26,7 @@ public class DeviceStatus  {
     
     private Integer cabinId;
     
-    private String vstatus;
+    private Integer vstatus;
 
 
 

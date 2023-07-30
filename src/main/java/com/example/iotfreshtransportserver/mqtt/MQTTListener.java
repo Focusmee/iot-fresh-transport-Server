@@ -43,11 +43,12 @@ public class MQTTListener implements ApplicationListener<ContextRefreshedEvent> 
       /*
       * 订阅数据主题
       * */
-      server.sub("mqtt/TemperatureInfo");
-      server.sub("mqtt/LightInfo");
-      server.sub("mqtt/DeviceControl");
-      server.sub("mqtt/DeviceStatus");
-      server.sub("mqtt/TransportCabin");
+//      server.sub("mqtt/TemperatureInfo");
+//      server.sub("mqtt/LightInfo");
+//      server.sub("mqtt/DeviceControl");
+//      server.sub("mqtt/DeviceStatus");
+//      server.sub("mqtt/TransportCabin");
+        server.sub("topic1");
       /*
       * 订阅上线事件和下线事件主题
       * */

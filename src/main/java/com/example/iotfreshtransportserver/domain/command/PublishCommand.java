@@ -16,7 +16,6 @@ public class PublishCommand {
     Integer id;
     Integer cabinId;
     Integer device_type;
-    Integer command_type;
     Float TinDH;
     Float TinDL;
     Float TG;

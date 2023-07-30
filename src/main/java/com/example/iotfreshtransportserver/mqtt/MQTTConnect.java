@@ -22,7 +22,7 @@ import java.time.LocalTime;
 public class MQTTConnect {
 
 //  @Value("${mqtt.broker}")
-  private String HOST = "ws://emqx@127.0.0.1:8083/mqtt";
+  private String HOST = "ws://emqx@192.168.1.101:8083/mqtt";
   private final String clientId = "Client" + (int) (Math.random() * 100000000);
   private MqttClient mqttClient;
 
