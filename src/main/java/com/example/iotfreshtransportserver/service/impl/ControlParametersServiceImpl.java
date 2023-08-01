@@ -1,7 +1,7 @@
 package com.example.iotfreshtransportserver.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.iotfreshtransportserver.domain.command.ControlParameter;
+import com.example.iotfreshtransportserver.domain.entity.command.ControlParameter;
 
 import com.example.iotfreshtransportserver.mapper.ControlParametersMapper;
 import com.example.iotfreshtransportserver.service.ControlParametersService;

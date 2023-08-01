@@ -2,13 +2,12 @@ package com.example.iotfreshtransportserver.controller;
 
 import com.example.iotfreshtransportserver.domain.ResponseResult;
 import com.example.iotfreshtransportserver.domain.entity.*;
+import com.example.iotfreshtransportserver.domain.vo.PageVo;
 import com.example.iotfreshtransportserver.service.*;
 import javafx.util.Pair;
-import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -104,16 +103,25 @@ public class TransportController {
     public ResponseResult<TemperatureInfo> getTemperatureInfoByTime(@PathVariable("vid") String vid,
                                                                     @PathVariable("start") Long start,
                                                                     @PathVariable("end") Long end) {
-        Instant instant1 = Instant.ofEpochMilli(start);
-        Instant instant2 = Instant.ofEpochMilli(end);
-        LocalDateTime startTime =  LocalDateTime.ofInstant(instant1, ZoneId.systemDefault());
-        LocalDateTime endTime =  LocalDateTime.ofInstant(instant2, ZoneId.systemDefault());
-        if (startTime.isAfter(endTime)) {
-            LocalDateTime temp = startTime;
-            startTime = endTime;
-            endTime = temp;
-        }
+        Pair<LocalDateTime, LocalDateTime> localDateTimeLocalDateTimePair = startAndEnd(start, end);
+        LocalDateTime startTime = localDateTimeLocalDateTimePair.getKey();
+        LocalDateTime endTime = localDateTimeLocalDateTimePair.getValue();
         List<TemperatureInfo> temperatureInfoByVID = temperatureInfoService.getTemperatureInfoByTime(vid, startTime, endTime);
+        return ResponseResult.okResult(temperatureInfoByVID);
+    }
+
+    @GetMapping("/{vid}/temperature/page/{pageNum}/{pageSize}")
+    public ResponseResult<TemperatureInfo> getTemperatureInfoByTime(@PathVariable("vid") String vid,@PathVariable("pageNum")Integer pageNum,@PathVariable("pageSize") Integer pageSize) {
+        ResponseResult<PageVo> temperatureInfoByVID = temperatureInfoService.selectTemperatureInfoListByTime(vid, pageNum, pageSize);
+        return ResponseResult.okResult(temperatureInfoByVID);
+    }
+
+    @GetMapping("/{vid}/temperature/page/{pageNum}/{pageSize}/startTime={start}/endTime={end}")
+    public ResponseResult<TemperatureInfo> getTemperatureInfoByTime(@PathVariable("vid") String vid,@PathVariable ("start") Long start,@PathVariable("end") Long end,@PathVariable("pageNum") Integer pageNum,@PathVariable("pageSize") Integer pageSize) {
+        Pair<LocalDateTime, LocalDateTime> localDateTimeLocalDateTimePair = startAndEnd(start, end);
+        LocalDateTime startTime = localDateTimeLocalDateTimePair.getKey();
+        LocalDateTime endTime = localDateTimeLocalDateTimePair.getValue();
+        ResponseResult<PageVo> temperatureInfoByVID = temperatureInfoService.selectTemperatureInfoListByTime(vid, startTime, endTime, pageNum, pageSize);
         return ResponseResult.okResult(temperatureInfoByVID);
     }
 
@@ -145,6 +153,21 @@ public class TransportController {
     @GetMapping("/{vid}/light")
     public ResponseResult getLightInfo(@PathVariable("vid") String vid) {
         List<LightInfo> lightInfoByVID = lightInfoService.getLightInfoByVID(vid);
+        return ResponseResult.okResult(lightInfoByVID);
+    }
+
+    @GetMapping("/{vid}/light/page/{pageNum}/{pageSize}")
+    public ResponseResult getLightInfo(@PathVariable("vid") String vid,@PathVariable("pageNum")Integer pageNum,@PathVariable("pageSize") Integer pageSize) {
+        ResponseResult<PageVo> lightInfoByVID = lightInfoService.selectLightInfoListByVID(vid, pageNum, pageSize);
+        return ResponseResult.okResult(lightInfoByVID);
+    }
+
+    @GetMapping("/{vid}/light/page/{pageNum}/{pageSize}/startTime={start}/endTime={end}")
+    public ResponseResult getLightInfo(@PathVariable("vid") String vid,@PathVariable("start") Long start,@PathVariable("end") Long end,@PathVariable("pageNum")Integer pageNum,@PathVariable("pageSize") Integer pageSize) {
+        Pair<LocalDateTime, LocalDateTime> localDateTimeLocalDateTimePair = startAndEnd(start, end);
+        LocalDateTime startTime = localDateTimeLocalDateTimePair.getKey();
+        LocalDateTime endTime = localDateTimeLocalDateTimePair.getValue();
+        ResponseResult<PageVo> lightInfoByVID = lightInfoService.selectLightInfoListByTime(vid, startTime, endTime, pageNum, pageSize);
         return ResponseResult.okResult(lightInfoByVID);
     }
 
@@ -212,14 +235,33 @@ public class TransportController {
     }
 
     /**
-     * 获取储运厢设备状态信息
+     * 获取最新储运厢设备状态信息
      * @param vid 储运厢编号
      * @return 储运厢设备状态信息
      */
     @GetMapping("/{vid}/status")
-    public ResponseResult<DeviceStatus> getDeviceStatus(@PathVariable("vid") String vid) {
-        DeviceStatus deviceStatus = deviceStatusService.getDeviceStatusByVID(vid);
+    public ResponseResult<DeviceStatus> getNewDeviceStatus(@PathVariable("vid") String vid) {
+        DeviceStatus deviceStatus = deviceStatusService.getNewDeviceStatusByVID(vid);
         return ResponseResult.okResult(deviceStatus);
+    }
+
+    /**
+     * 获取设备异常状态
+     *
+     * @param vid      从视频
+     * @param start    开始
+     * @param end      结束
+     * @param pageNum  页面num
+     * @param pageSize 页面大小
+     * @return {@link ResponseResult}<{@link PageVo}>
+     */
+    @GetMapping("/{vid}/status/page/{pageNum}/{pageSize}/startTime={start}/endTime={end}")
+    public ResponseResult<PageVo> getDeviceStatus(@PathVariable("vid") String vid,@PathVariable("start") Long start,@PathVariable("end") Long end,@PathVariable("pageNum")Integer pageNum,@PathVariable("pageSize") Integer pageSize) {
+        Pair<LocalDateTime, LocalDateTime> localDateTimeLocalDateTimePair = startAndEnd(start, end);
+        LocalDateTime startTime = localDateTimeLocalDateTimePair.getKey();
+        LocalDateTime endTime = localDateTimeLocalDateTimePair.getValue();
+        ResponseResult<PageVo> deviceStatusByVID = deviceStatusService.getAbnormalDeviceStatusListByVID(vid, startTime, endTime, pageNum, pageSize);
+        return ResponseResult.okResult(deviceStatusByVID);
     }
 
     private Pair<LocalDateTime,LocalDateTime> startAndEnd(Long start, Long end) {

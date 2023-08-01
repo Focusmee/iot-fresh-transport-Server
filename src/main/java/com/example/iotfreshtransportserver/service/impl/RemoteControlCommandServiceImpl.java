@@ -1,7 +1,7 @@
 package com.example.iotfreshtransportserver.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.iotfreshtransportserver.domain.command.RemoteControlCommand;
+import com.example.iotfreshtransportserver.domain.entity.command.RemoteControlCommand;
 import com.example.iotfreshtransportserver.mapper.RemoteControlCommandMapper;
 import com.example.iotfreshtransportserver.service.RemoteControlCommandService;
 import org.springframework.stereotype.Service;

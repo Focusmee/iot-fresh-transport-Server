@@ -2,7 +2,7 @@ package com.example.iotfreshtransportserver.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import com.example.iotfreshtransportserver.domain.command.ControlParameter;
+import com.example.iotfreshtransportserver.domain.entity.command.ControlParameter;
 import org.apache.ibatis.annotations.Mapper;
 
 

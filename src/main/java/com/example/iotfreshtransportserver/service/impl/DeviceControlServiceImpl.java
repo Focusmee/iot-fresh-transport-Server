@@ -31,5 +31,12 @@ public class DeviceControlServiceImpl extends ServiceImpl<DeviceControlMapper, D
         updateWrapper.eq("cabin_id", vid);
         update(deviceControl, updateWrapper);
     }
+
+    /**
+     * 更新正常数据（正常数据只有一个）
+     *
+     * @param deviceControl 设备control
+     */
+
 }
 

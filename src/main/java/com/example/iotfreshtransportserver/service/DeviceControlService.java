@@ -15,5 +15,7 @@ public interface DeviceControlService extends IService<DeviceControl> {
     DeviceControl getDeviceControlByVID(String vid);
 
     void updateDeviceControl(String vid, double bright, double speedM1, double speedM2);
+
+
 }
 

@@ -1,4 +1,4 @@
-package com.example.iotfreshtransportserver.domain.uchart;
+package com.example.iotfreshtransportserver.domain.entity.uchart;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

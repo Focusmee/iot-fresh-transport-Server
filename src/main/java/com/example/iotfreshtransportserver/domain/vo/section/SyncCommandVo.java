@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SyncCommandVo extends CommandVo {
     private Integer isSyncTime;
+    private Integer mode;
 }

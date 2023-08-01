@@ -27,7 +27,7 @@ public class PublishCommandDto {
     @JsonProperty("lxd")
     private Float LXD;
     @JsonProperty("bright")
-    private Float Bright;
+    private Integer Bright;
     @JsonProperty("speedM1")
     private Float SpeedM1;
     @JsonProperty("speedM2")
@@ -37,4 +37,7 @@ public class PublishCommandDto {
     @JsonProperty("tend")
     private Long TEnd;
     private Integer isSyncTime;
+    //模式
+    private Integer mode;
+    private Integer air;
 }

@@ -2,8 +2,11 @@ package com.example.iotfreshtransportserver.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.iotfreshtransportserver.domain.ResponseResult;
 import com.example.iotfreshtransportserver.domain.entity.LightInfo;
+import com.example.iotfreshtransportserver.domain.vo.PageVo;
 import com.example.iotfreshtransportserver.mapper.LightInfoMapper;
 import com.example.iotfreshtransportserver.service.LightInfoService;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,7 @@ import java.util.List;
 public class LightInfoServiceImpl extends ServiceImpl<LightInfoMapper, LightInfo> implements LightInfoService {
     public List<LightInfo> getLightInfoByVID(String vid) {
         QueryWrapper<LightInfo> queryWrapper = new QueryWrapper<>();
+
         queryWrapper.eq("cabinId", vid);
         return list(queryWrapper);
     }
@@ -63,6 +67,35 @@ public class LightInfoServiceImpl extends ServiceImpl<LightInfoMapper, LightInfo
         queryWrapper.between("time", start, end);
         return list(queryWrapper);
         //return baseMapper.getLightInfoByTime(vid, start, end);
+    }
+
+    @Override
+    public ResponseResult<PageVo> selectLightInfoListByTime(String vid, LocalDateTime start, LocalDateTime end, Integer pageNum, Integer pageSize) {
+        QueryWrapper<LightInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("cabinId", vid);
+        queryWrapper.orderByDesc("time");
+        queryWrapper.between("time", start, end);
+        Page<LightInfo> page = new Page<>();
+        page.setCurrent(pageNum);
+        page.setSize(pageSize);
+        page(page,queryWrapper);
+        List<LightInfo> records = page.getRecords();
+        PageVo pageVo = new PageVo(records,page.getTotal());
+        return ResponseResult.okResult(pageVo);
+    }
+
+    @Override
+    public ResponseResult<PageVo> selectLightInfoListByVID(String vid, Integer pageNum, Integer pageSize) {
+        QueryWrapper<LightInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("cabinId", vid);
+        queryWrapper.orderByDesc("time");
+        Page<LightInfo> page = new Page<>();
+        page.setCurrent(pageNum);
+        page.setSize(pageSize);
+        page(page,queryWrapper);
+        List<LightInfo> records = page.getRecords();
+        PageVo pageVo = new PageVo(records,page.getTotal());
+        return ResponseResult.okResult(pageVo);
     }
 }
 

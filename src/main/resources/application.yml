@@ -23,7 +23,8 @@ mybatis-plus:
   mapper-locations: mapper/*.xml
 
 mqtt:
-  broker: ws://emqx@127.0.0.1:1883/mqtt
+#  broker:  "ws://emqx@192.168.1.100:8083/mqtt"
+  broker:  "ws://emqx@127.0.0.1:8083/mqtt"
   username: emqx
   password: public
   clientId: receiver

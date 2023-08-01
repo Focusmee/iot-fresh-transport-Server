@@ -1,7 +1,9 @@
 package com.example.iotfreshtransportserver.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.iotfreshtransportserver.domain.ResponseResult;
 import com.example.iotfreshtransportserver.domain.entity.TemperatureInfo;
+import com.example.iotfreshtransportserver.domain.vo.PageVo;
 import org.apache.tomcat.jni.Local;
 
 import java.time.LocalDateTime;
@@ -23,5 +25,7 @@ public interface TemperatureInfoService extends IService<TemperatureInfo> {
     List<TemperatureInfo> getNewList(Integer vid,Integer size);
 
     List<TemperatureInfo> getTemperatureInfoByTime(String vid, LocalDateTime start, LocalDateTime end);
+    ResponseResult<PageVo> selectTemperatureInfoListByTime(String vid, LocalDateTime start, LocalDateTime end, Integer pageNum, Integer pageSize);
+    ResponseResult<PageVo> selectTemperatureInfoListByTime(String vid, Integer pageNum, Integer pageSize);
 }
 

@@ -1,4 +1,4 @@
-package com.example.iotfreshtransportserver.domain.command;
+package com.example.iotfreshtransportserver.domain.entity.command;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -20,11 +20,13 @@ public class PublishCommand {
     Float TinDL;
     Float TG;
     Float LXD;
-    Float Bright;
+    Integer Bright;
     Float SpeedM1;
     Float SpeedM2;
     LocalDateTime TBegin;
     LocalDateTime TEnd;
     LocalDateTime time;
+    Integer mode;
+    Integer air;
     Integer isSyncTime; //是否同步时间
 }

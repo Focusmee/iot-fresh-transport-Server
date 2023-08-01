@@ -1,7 +1,7 @@
 package com.example.iotfreshtransportserver.controller.oldCommand;
 
 import com.example.iotfreshtransportserver.domain.ResponseResult;
-import com.example.iotfreshtransportserver.domain.command.ControlParameter;
+import com.example.iotfreshtransportserver.domain.entity.command.ControlParameter;
 import com.example.iotfreshtransportserver.mqtt.MqttMessageService;
 import com.example.iotfreshtransportserver.service.ControlParametersService;
 import org.springframework.beans.factory.annotation.Autowired;

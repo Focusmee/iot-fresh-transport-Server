@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PowerCommandVo extends CommandVo {
     private Integer device_type;
-    private Float Bright;
+    private Integer Bright;
     private Float SpeedM1;
+    private Integer air;
     private Float SpeedM2;
 }

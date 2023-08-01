@@ -1,7 +1,7 @@
 package com.example.iotfreshtransportserver.controller.oldCommand;
 
 import com.example.iotfreshtransportserver.domain.ResponseResult;
-import com.example.iotfreshtransportserver.domain.command.RemoteControlCommand;
+import com.example.iotfreshtransportserver.domain.entity.command.RemoteControlCommand;
 import com.example.iotfreshtransportserver.mqtt.MqttMessageService;
 import com.example.iotfreshtransportserver.service.RemoteControlCommandService;
 import org.springframework.web.bind.annotation.*;

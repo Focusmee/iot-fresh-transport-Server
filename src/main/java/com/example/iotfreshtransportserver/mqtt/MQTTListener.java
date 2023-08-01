@@ -52,7 +52,7 @@ public class MQTTListener implements ApplicationListener<ContextRefreshedEvent> 
       /*
       * 订阅上线事件和下线事件主题
       * */
-      server.sub("$SYS/brokers/+/clients/#");
+//      server.sub("$SYS/brokers/+/clients/#");
     } catch (MqttException e) {
       log.error(e.getMessage(), e);
     }

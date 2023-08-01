@@ -71,15 +71,29 @@ public class InitCallback implements MqttCallback {
             case "topic1":
                 ReceivedDataDto receivedDataDto = JSON.parseObject(messageContent, ReceivedDataDto.class);
                 receivedDataDto.setCabinId(receivedDataDto.getVid());
-                TransportCabin transportCabin1 = BeanCopyUtils.copyBean(receivedDataDto, TransportCabin.class);
+
                 TemperatureInfo temperatureInfo1 = BeanCopyUtils.copyBean(receivedDataDto, TemperatureInfo.class);
                 LightInfo lightInfo1 = BeanCopyUtils.copyBean(receivedDataDto, LightInfo.class);
-                DeviceStatus deviceStatus1 = BeanCopyUtils.copyBean(receivedDataDto,DeviceStatus.class);
-                temperatureInfoService.save(temperatureInfo1);
-                lightInfoService.save(lightInfo1);
-                transportCabinService.save(transportCabin1);
-                deviceStatusService.updateById(deviceStatus1);
-                break;
+                try{
+                    if(receivedDataDto.getVstatus()!=0) {
+                        DeviceStatus deviceStatus1 = BeanCopyUtils.copyBean(receivedDataDto,DeviceStatus.class);
+                        deviceStatusService.save(deviceStatus1);
+                    } else {
+                        DeviceStatus deviceStatus1 = BeanCopyUtils.copyBean(receivedDataDto, DeviceStatus.class);
+                        deviceStatusService.updateNormal(deviceStatus1);
+                    }
+                    if(receivedDataDto.getPid()!=0) {
+                        TransportCabin transportCabin1 = BeanCopyUtils.copyBean(receivedDataDto, TransportCabin.class);
+                        transportCabinService.save(transportCabin1);
+                    }
+                    temperatureInfoService.save(temperatureInfo1);
+                    lightInfoService.save(lightInfo1);
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    break;
+                }
             default:
                 // Handle unknown topics, or you can ignore them if not needed.
                 log.info("unknown topic:");

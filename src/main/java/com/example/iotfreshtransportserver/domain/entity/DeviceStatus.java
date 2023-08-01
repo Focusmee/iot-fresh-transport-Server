@@ -2,6 +2,8 @@ package com.example.iotfreshtransportserver.domain.entity;
 
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +30,7 @@ public class DeviceStatus  {
     
     private Integer vstatus;
 
+    private LocalDateTime time;
 
 
 }

@@ -1,5 +1,6 @@
-package com.example.iotfreshtransportserver.domain.command;
+package com.example.iotfreshtransportserver.domain.entity.command;
 
+import java.util.Date;
 
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
@@ -8,27 +9,30 @@ import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 /**
- * (ControlParameters)表实体类
+ * (RemoteControlCommand)表实体类
  *
  * @author makejava
- * @since 2023-07-24 19:39:17
+ * @since 2023-07-24 20:27:32
  */
 @SuppressWarnings("serial")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("control_parameter")
-public class ControlParameter  {
+@TableName("remote_control_command")
+public class RemoteControlCommand  {
     @TableId
     private Integer id;
 
     
     private Integer cabinId;
     
-    private String parameterType;
+    private String deviceType;
     
-    private Double parameterValue;
-
+    private String commandType;
+    
+    private Double commandValue;
+    
+    private Date commandTime;
 
 
 }

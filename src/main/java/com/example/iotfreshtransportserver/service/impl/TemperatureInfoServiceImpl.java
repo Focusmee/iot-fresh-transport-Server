@@ -2,11 +2,13 @@ package com.example.iotfreshtransportserver.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.iotfreshtransportserver.domain.ResponseResult;
 import com.example.iotfreshtransportserver.domain.entity.TemperatureInfo;
+import com.example.iotfreshtransportserver.domain.vo.PageVo;
 import com.example.iotfreshtransportserver.mapper.TemperatureInfoMapper;
 import com.example.iotfreshtransportserver.service.TemperatureInfoService;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -58,6 +60,36 @@ public class TemperatureInfoServiceImpl extends ServiceImpl<TemperatureInfoMappe
         queryWrapper.between("time", start, end);
         queryWrapper.eq("cabinId", vid);
         return list(queryWrapper);
+    }
+
+    @Override
+    public ResponseResult<PageVo> selectTemperatureInfoListByTime(String vid, LocalDateTime start, LocalDateTime end, Integer pageNum, Integer pageSize) {
+        QueryWrapper<TemperatureInfo> queryWrapper = new QueryWrapper();
+        queryWrapper.between("time", start, end);
+        queryWrapper.orderByDesc("time");
+        queryWrapper.eq("cabinId", vid);
+        Page<TemperatureInfo> page = new Page<>();
+        page.setCurrent(pageNum);
+        page.setSize(pageSize);
+        page(page, queryWrapper);
+        List<TemperatureInfo> records = page.getRecords();
+        PageVo pageVo = new PageVo(records,page.getTotal());
+        return ResponseResult.okResult(pageVo);
+    }
+
+    @Override
+    public ResponseResult<PageVo> selectTemperatureInfoListByTime(String vid, Integer pageNum, Integer pageSize) {
+        QueryWrapper<TemperatureInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("cabinId", vid);
+        queryWrapper.orderByDesc("time");
+        Page<TemperatureInfo> page = new Page<>();
+        page.setCurrent(pageNum);
+        page.setSize(pageSize);
+        page(page, queryWrapper);
+        List<TemperatureInfo> records = page.getRecords();
+        PageVo pageVo = new PageVo(records,page.getTotal());
+
+        return ResponseResult.okResult(pageVo);
     }
 
     public void updateTemperatureInfo(String vid, double tin, double tout, double tinDH, double tinDL, double tg) {

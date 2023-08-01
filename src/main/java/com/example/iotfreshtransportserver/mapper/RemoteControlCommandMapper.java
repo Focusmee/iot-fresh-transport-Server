@@ -1,7 +1,7 @@
 package com.example.iotfreshtransportserver.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.iotfreshtransportserver.domain.command.RemoteControlCommand;
+import com.example.iotfreshtransportserver.domain.entity.command.RemoteControlCommand;
 import org.apache.ibatis.annotations.Mapper;
 
 

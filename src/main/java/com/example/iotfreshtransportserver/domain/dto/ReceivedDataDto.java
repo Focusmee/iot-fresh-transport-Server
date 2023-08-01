@@ -13,14 +13,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReceivedDataDto {
-    Integer vid;
     Integer cabinId;
+    @JsonProperty("VID")
+    Integer vid;
+
+    @JsonProperty("PID")
     Integer pid;
     @JsonProperty("Tin")
     Double tin;
     @JsonProperty("Tout")
     Double tout;
-    @JsonProperty("Lxin")
+    @JsonProperty("LXin")
     Double lxin;
     @JsonProperty("VStatus")
     Integer vstatus;

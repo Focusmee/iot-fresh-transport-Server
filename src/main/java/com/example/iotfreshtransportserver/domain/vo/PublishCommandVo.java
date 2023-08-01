@@ -13,6 +13,7 @@ public class PublishCommandVo {
 
     private Integer cabinId;
     private Integer isSyncTime;
+    private Integer mode;
 
     private Float TinDH;
     private Float TinDL;
@@ -20,8 +21,9 @@ public class PublishCommandVo {
     private Float LXD;
 
     private Integer device_type;
-    private Float Bright;
+    private Integer Bright;
     private Float SpeedM1;
+    private Integer Air;
     private Float SpeedM2;
 
     private String TBegin;

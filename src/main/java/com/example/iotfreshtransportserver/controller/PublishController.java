@@ -2,7 +2,7 @@ package com.example.iotfreshtransportserver.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.example.iotfreshtransportserver.domain.ResponseResult;
-import com.example.iotfreshtransportserver.domain.command.PublishCommand;
+import com.example.iotfreshtransportserver.domain.entity.command.PublishCommand;
 import com.example.iotfreshtransportserver.domain.dto.PublishCommandDto;
 import com.example.iotfreshtransportserver.domain.vo.*;
 import com.example.iotfreshtransportserver.domain.vo.section.PowerCommandVo;
@@ -37,10 +37,10 @@ public class PublishController {
         this.mqttMessageService = mqttMessageService;
         this.publishCommandService = publishCommandService;
         this.topicAndMessage = topicAndMessage;
-        topicAndMessage.add(new Pair<String, Class>("mqtt/control/sync", SyncCommandVo.class));
-        topicAndMessage.add(new Pair<String, Class>("mqtt/control/threshold", ThresholdCommandVo.class));
-        topicAndMessage.add(new Pair<String, Class>("mqtt/control/power", PowerCommandVo.class));
-        topicAndMessage.add(new Pair<String, Class>("mqtt/control/time", TimeCommandVo.class));
+        topicAndMessage.add(new Pair<String, Class>("$delayed/1/mqtt/control/sync", SyncCommandVo.class));
+        topicAndMessage.add(new Pair<String, Class>("$delayed/2/mqtt/control/threshold", ThresholdCommandVo.class));
+        topicAndMessage.add(new Pair<String, Class>("$delayed/3/mqtt/control/power", PowerCommandVo.class));
+        topicAndMessage.add(new Pair<String, Class>("$delayed/4/mqtt/control/time", TimeCommandVo.class));
     }
 
 
@@ -71,6 +71,7 @@ public class PublishController {
         for (Pair<String, Class> stringCommandVoPair : topicAndMessage) {
             CommandVo o = (CommandVo)BeanCopyUtils.copyBean(publishCommandVo, stringCommandVoPair.getValue());
             mqttMessageService.publish(stringCommandVoPair.getKey(), o);
+
         }
         publishCommandService.save(publishCommand);//保存命令
         return ResponseResult.okResult();
@@ -79,6 +80,7 @@ public class PublishController {
 
     @GetMapping("/parameters/{vid}")
     public ResponseResult getControlParameters(@PathVariable Integer vid) {
+        //PublishCommandDto 接收的时候用，发给前端也用，保持一致
         PublishCommand byId = publishCommandService.getNewByVid(vid);
         PublishCommandDto publishCommandDto = BeanCopyUtils.copyBean(byId, PublishCommandDto.class);
         publishCommandDto.setTBegin(byId.getTBegin().toEpochSecond(ZoneOffset.of("+8")));

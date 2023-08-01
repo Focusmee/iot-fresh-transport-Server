@@ -1,7 +1,12 @@
 package com.example.iotfreshtransportserver.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.iotfreshtransportserver.domain.ResponseResult;
+import com.example.iotfreshtransportserver.domain.entity.DeviceControl;
 import com.example.iotfreshtransportserver.domain.entity.DeviceStatus;
+import com.example.iotfreshtransportserver.domain.vo.PageVo;
+
+import java.time.LocalDateTime;
 
 
 /**
@@ -12,6 +17,10 @@ import com.example.iotfreshtransportserver.domain.entity.DeviceStatus;
  */
 public interface DeviceStatusService extends IService<DeviceStatus> {
 
-    DeviceStatus getDeviceStatusByVID(String vid);
+    DeviceStatus getNewDeviceStatusByVID(String vid);
+
+    ResponseResult<PageVo> getAbnormalDeviceStatusListByVID(String vid, LocalDateTime startTime, LocalDateTime endTime, Integer pageNum, Integer pageSize);
+
+    void updateNormal(DeviceStatus deviceStatus);
 }
 
